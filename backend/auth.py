@@ -11,13 +11,26 @@ SECRET_KEY = os.getenv("SECRET_KEY", "hireright-secret-key-change-in-production"
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 60 * 24 * 7  # 7 days
 
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+pwd_context = CryptContext(
+    schemes=["bcrypt"],
+    deprecated="auto",
+    bcrypt__rounds=12,
+    bcrypt__ident="2b"
+)
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="auth/login")
 
 
 def hash_password(password: str) -> str:
     return pwd_context.hash(password)
 
+def hash_password(password: str) -> str:
+    # Truncate to 72 bytes max to avoid bcrypt limitation
+    password = password[:72]
+    return pwd_context.hash(password)
+
+def verify_password(plain: str, hashed: str) -> bool:
+    plain = plain[:72]
+    return pwd_context.verify(plain, hashed)
 
 def verify_password(plain: str, hashed: str) -> bool:
     return pwd_context.verify(plain, hashed)
