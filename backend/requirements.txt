@@ -1,0 +1,11 @@
+fastapi
+uvicorn
+sqlalchemy
+sentence-transformers
+scikit-learn
+anthropic
+python-dotenv
+pydantic
+passlib
+python-jose
+bcrypt
