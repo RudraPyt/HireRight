@@ -21,18 +21,12 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="auth/login")
 
 
 def hash_password(password: str) -> str:
-    return pwd_context.hash(password)
-
-def hash_password(password: str) -> str:
-    # Truncate to 72 bytes max to avoid bcrypt limitation
     password = password[:72]
     return pwd_context.hash(password)
 
-def verify_password(plain: str, hashed: str) -> bool:
-    plain = plain[:72]
-    return pwd_context.verify(plain, hashed)
 
 def verify_password(plain: str, hashed: str) -> bool:
+    plain = plain[:72]
     return pwd_context.verify(plain, hashed)
 
 
